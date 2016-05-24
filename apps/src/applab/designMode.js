@@ -30,18 +30,18 @@ var ApplabInterfaceMode = applabConstants.ApplabInterfaceMode;
  * @param {!Store} store
  */
 designMode.setupReduxSubscribers = function (store) {
-  var state = {
-    screens: {}
-  };
+  var state;
   store.subscribe(function () {
     var lastState = state;
     state = store.getState();
 
-    if (state.screens.currentScreenId !== lastState.screens.currentScreenId) {
-      renderScreens(state.screens.currentScreenId);
+    if (!lastState ||
+        state.screens.get('currentScreenId') !== lastState.screens.get('currentScreenId')) {
+      renderScreens(state.screens.get('currentScreenId'));
     }
 
-    if (state.interfaceMode !== lastState.interfaceMode) {
+    if (!lastState ||
+        state.interfaceMode !== lastState.interfaceMode) {
       onInterfaceModeChange(state.interfaceMode);
     }
   });
@@ -944,7 +944,7 @@ designMode.changeScreen = function (screenId) {
  */
 function renderScreens(screenId) {
   // Update which screen is shown in run mode
-  Applab.changeScreen(studioApp.reduxStore.getState().screens.currentScreenId);
+  Applab.changeScreen(studioApp.reduxStore.getState().screens.get('currentScreenId'));
 
   elementUtils.getScreens().each(function () {
     $(this).toggle(elementUtils.getId(this) === screenId);

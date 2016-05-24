@@ -75,7 +75,7 @@ var ScreenSelector = React.createClass({
 module.exports = ScreenSelector;
 module.exports = connect(function propsFromStore(state) {
   return {
-    currentScreenId: state.screens.currentScreenId
+    currentScreenId: state.screens.get('currentScreenId')
   };
 }, function propsFromDispatch(dispatch) {
   return {
